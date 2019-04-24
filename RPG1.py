@@ -1,3 +1,45 @@
+import random
+class Hero(object):
+    def __init__(self, name):
+        self.name = name
+        self.powah = random.randint(1000, 99999)
+        self.hp = random.randint(50000, 99999)
+    def attack(self, object):
+        if self.hp > 0 and object.health > 0:
+            object.health -=  self.powah
+            print(f"Creda deals {self.powah} damage!")
+    def alive(self):
+        if self.hp >= 1:
+            return self.hp
+    def status(self):
+        if self.hp >= 0:
+            print(f"{self.name} has {self.hp} remaining.")
+        elif self.hp <= 0:
+            print(f"{self.name} has been defeated.")
+
+class Enemy(object):
+    def __init__(self, name):
+        self.name = name
+        self.powah = random.randint(500, 9999)
+        self.health = random.randint(100000, 999999)
+    def attack(self, object):
+        if self.health >= 0:
+            object.hp -= self.powah
+            print(f"{self.name} deals {self.powah} damage to {object.name}")
+    def alive(self):
+        if self.health >= 1:
+            return self.health
+    def status(self):
+        if self.health >= 0:
+            print (f"{self.name} has {self.health} remaining.")
+        elif self.health <= 0:
+            print(f"{self.name} has been defeated.")
+        
+
+creda = Hero("Creda")
+cicilene = Enemy("Cicilene")
+
+
 #!/usr/bin/env python
 
 # In this simple RPG game, the hero fights the goblin. He has the options to:
@@ -7,27 +49,23 @@
 # 3. flee
 
 def main():
-    hero_health = 10
-    hero_power = 5
-    goblin_health = 6
-    goblin_power = 2
 
-    while goblin_health > 0 and hero_health > 0:
-        print("You have {} health and {} power.".format(hero_health, hero_power))
-        print("The goblin has {} health and {} power.".format(goblin_health, goblin_power))
+    while cicilene.alive() and creda.alive():
+        print(f"""
+        Lv.99 {creda.name} with an attack power of {creda.powah}, 
+        has encountered a power lv.{cicilene.powah} {cicilene.name}!
+        """)
         print()
-        print("What do you want to do?")
-        print("1. fight goblin")
+        print("There can only be one winner!")
+        print("1. Fight Creda")
         print("2. do nothing")
         print("3. flee")
         print("> ", end=' ')
         raw_input = input()
         if raw_input == "1":
-            # Hero attacks goblin
-            goblin_health -= hero_power
-            print("You do {} damage to the goblin.".format(hero_power))
-            if goblin_health <= 0:
-                print("The goblin is dead.")
+            creda.attack(cicilene)
+            if cicilene.alive():
+                cicilene.status
         elif raw_input == "2":
             pass
         elif raw_input == "3":
@@ -36,11 +74,9 @@ def main():
         else:
             print("Invalid input {}".format(raw_input))
 
-        if goblin_health > 0:
+        if  cicilene.alive():
             # Goblin attacks hero
-            hero_health -= goblin_power
-            print("The goblin does {} damage to you.".format(goblin_power))
-            if hero_health <= 0:
-                print("You are dead.")
-
+            cicilene.attack(creda)
+        creda.status()
+        cicilene.status()
 main()
