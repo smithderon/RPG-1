@@ -20,10 +20,6 @@ class Char():
 
 
 class Hero(Char):
-    def __init__(self, name):
-        self.name = name
-        self.powah = random.randint(1000, 99999)
-        self.hp = random.randint(50000, 99999)
     def attack(self, object):
         if self.hp > 0 and object.hp > 0:
             object.hp -=  self.powah
@@ -38,10 +34,6 @@ class Hero(Char):
             print(f"{self.name} has been defeated.")
 
 class Enemy(Char):
-    def __init__(self, name):
-        self.name = name
-        self.powah = random.randint(500, 9999)
-        self.hp = random.randint(100000, 999999)
     def attack(self, object):
         if self.hp >= 0:
             object.hp -= self.powah
