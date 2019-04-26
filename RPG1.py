@@ -1,12 +1,13 @@
 import random
-class Hero(object):
+
+class Char():
     def __init__(self, name):
         self.name = name
         self.powah = random.randint(1000, 99999)
         self.hp = random.randint(50000, 99999)
     def attack(self, object):
-        if self.hp > 0 and object.health > 0:
-            object.health -=  self.powah
+        if self.hp > 0 and object.hp > 0:
+            object.hp -=  self.powah
             print(f"Creda deals {self.powah} damage!")
     def alive(self):
         if self.hp >= 1:
@@ -17,22 +18,41 @@ class Hero(object):
         elif self.hp <= 0:
             print(f"{self.name} has been defeated.")
 
-class Enemy(object):
+
+class Hero(Char):
+    def __init__(self, name):
+        self.name = name
+        self.powah = random.randint(1000, 99999)
+        self.hp = random.randint(50000, 99999)
+    def attack(self, object):
+        if self.hp > 0 and object.hp > 0:
+            object.hp -=  self.powah
+            print(f"Creda deals {self.powah} damage!")
+    def alive(self):
+        if self.hp >= 1:
+            return self.hp
+    def status(self):
+        if self.hp >= 0:
+            print(f"{self.name} has {self.hp} remaining.")
+        elif self.hp <= 0:
+            print(f"{self.name} has been defeated.")
+
+class Enemy(Char):
     def __init__(self, name):
         self.name = name
         self.powah = random.randint(500, 9999)
-        self.health = random.randint(100000, 999999)
+        self.hp = random.randint(100000, 999999)
     def attack(self, object):
-        if self.health >= 0:
+        if self.hp >= 0:
             object.hp -= self.powah
             print(f"{self.name} deals {self.powah} damage to {object.name}")
     def alive(self):
-        if self.health >= 1:
-            return self.health
+        if self.hp >= 1:
+            return self.hp
     def status(self):
-        if self.health >= 0:
-            print (f"{self.name} has {self.health} remaining.")
-        elif self.health <= 0:
+        if self.hp >= 0:
+            print (f"{self.name} has {self.hp} remaining.")
+        elif self.hp <= 0:
             print(f"{self.name} has been defeated.")
         
 
@@ -56,7 +76,9 @@ def main():
         has encountered a power lv.{cicilene.powah} {cicilene.name}!
         """)
         print()
-        print("There can only be one winner!")
+        print("""
+        Battle Menu: 
+        """)
         print("1. Fight Creda")
         print("2. do nothing")
         print("3. flee")
