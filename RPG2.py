@@ -85,6 +85,7 @@ class Shop(object):
         #     object.count - 1
         #     object.char_count += 1
         #     creda.inv[object.name] = object.char_count
+
 class Weapons(Shop):
     def __init__(self, name, strength, sp, value):
         self.name = name
@@ -194,7 +195,7 @@ class Char():
         elif self.hp >= int(100 + (25 * self.level ** 1.6)):
             self.hp = self.maxhp
         self.defense = int(20 + (3 *self.level))
-        self.gold = 150000000
+        self.gold = 500
         self.sp = 10 + (self.level * 10)
         self.maxsp = 10 + (self.level * 10)
         self.powah = (int(strength + (self.level * 3)))
@@ -217,12 +218,28 @@ class Char():
         elif self.hp <= 0:
             print(f"{self.name} has been defeated.")
 
+class Abilities(Char):
+    def __init__(self, name, skillpower, spcost, levelreq):
+        self.name = name
+        self.skillpower = skillpower
+        self.spcost = spcost
+        self.levelreq = levelreq
+    
+    def skill_use(self, object):
+        pass
+# triple_strike = Abilities("Triple Strike", 3, 30, 0)
+# inc_draw = Abilities("Incinerating Draw", 5, 50, 0)
+# sword_dance = Abilities("Sword Dance", 7.5, 80, 5)
+# eclypse = Abilities("Eclyptic Slash", 11, 110, 12)
+# dimension = Abilities("Dimensional Slash", 25, 200, 30)
+# singularity = Abilities("Singularity Destruct", 50, 500, 40)
+# obliterate = Abilities("Infinite Obliteration", 225, 1500, 75)
 
 class Hero(Char):
     def attack(self, object):
         self.crit = random.randint(1, 5)
         if self.hp > 0 and object.hp > 0:
-            object.hp -=  (self.powah - object.defense)
+            object.hp -= (self.powah - object.defense)
             print(f"""{self.name} deals {self.powah - object.defense} damage!""")
             if self.crit == random.randint(1, 5):
                     object.hp -= self.powah * 1.5
@@ -236,7 +253,7 @@ class Hero(Char):
             'What skill should I use...'
             1. Triple Strike   - 15sp   2. Flame Draw      - 20sp
             3. Sword Dance     - 50sp   4. Eclyptic Slash  - 85sp
-            5. Dimensional Cut - 100sp  6. Celestial Break - 125sp
+            5. Dimensional Cut - 120sp  6. Celestial Break - 200sp
             7. ???               500sp  8. ???             - 1500sp
             
             9. Return
@@ -265,16 +282,16 @@ class Hero(Char):
                 damage = self.powah * 10
                 print(f"""
                 {self.name} deals {damage} damage with Eclyptic Slash to {object.name} """)
-            elif use_skill == "5" and self.sp >= 100 and self.level >= 15:
-                self.sp -= 100
-                object.hp -= self.powah * 12
-                damage = self.powah * 12
+            elif use_skill == "5" and self.sp >= 120 and self.level >= 15:
+                self.sp -= 120
+                object.hp -= self.powah * 13
+                damage = self.powah * 13
                 print(f"""
                 {self.name} deals {damage} damage with Dimensional Cut to {object.name}! """)
-            elif use_skill == "6" and self.sp >= 125 and self.level >= 25:
+            elif use_skill == "6" and self.sp >= 200 and self.level >= 25:
                 self.sp -= 100 
-                object.hp -= (self.powah * 15)
-                damage = self.powah * 15
+                object.hp -= (self.powah * 25)
+                damage = self.powah * 25
                 print(f"""
                 {self.name} deals {damage} damage with Celestial Break to {object.name}! """)
             elif use_skill == "7" and self.sp >= 500 and self.level >= 40:
@@ -456,7 +473,7 @@ bandit = Goon("Bandit", random.randint(15, 19), 100)
 captain = Goon("Mercenary Captain", random.randint(20, 25), 120)
 
 # Higher Goons
-dragon = Goon("Dragon", random.randint(48, 50), 200)
+dragon = Goon("Dragon", random.randint(49, 50), 200)
 behemoth = Goon("Behemoth", random.randint(50, 58), 240)
 catoblepas = Goon("Catoblepas", random.randint(60, 70), 300)
 gigas = Goon("Gigas", random.randint(71, 80), 500)
@@ -865,14 +882,14 @@ def game():
 aisha = Shop("Aisha")
 
 # Weapons
-basic_kat = Weapons("Improved Katana", 45, 5, 450)
-gold_kat = Weapons("Golden Katana", 80, 15, 1200)
+basic_kat = Weapons("Improved Katana", 60, 10, 1050)
+gold_kat = Weapons("Golden Katana", 150, 20, 2200)
 masamune = Weapons("Masamune", 500, 50, 7000) 
 muramasa = Weapons("Muramasa", 280, 35, 4000)
-sky_divider = Weapons("Sky Splitter", 900, 100, 20000)
-abyss = Weapons("Abyssal Touch", 1800, 250, 35000)
-ame_no_murakumo = Weapons("Ame-no-Murakumo", 3000, 400, 200000)
-apocalypse = Weapons("Apocalypse", 9999, 6000, 1000000)
+sky_divider = Weapons("Sky Splitter", 1300, 100, 40000)
+abyss = Weapons("Abyssal Touch", 1800, 250, 50000)
+ame_no_murakumo = Weapons("Ame-no-Murakumo", 5000, 500, 200000)
+apocalypse = Weapons("Apocalypse", 9999, 4000, 1000000)
 aisha.shop_inventory_wep(basic_kat)
 aisha.shop_inventory_wep(gold_kat)
 aisha.shop_inventory_wep(muramasa)
@@ -883,10 +900,10 @@ aisha.shop_inventory_wep(ame_no_murakumo)
 
 # Armor
 mail = Armor("Plate mail", 45, 150, 550)
-chain = Armor("Chain mail", 70, 400, 900)
-diamond = Armor("Diamond mail", 180, 1000, 2500)
+chain = Armor("Chain mail", 70, 400, 1300)
+diamond = Armor("Diamond mail", 180, 1000, 4000)
 grand = Armor("Grand Armor", 370, 1800, 6000)
-shroud = Armor("Darkness Shroud", 700, 3000, 12800)
+shroud = Armor("Darkness Shroud", 700, 3000, 20800)
 oric = Armor("Orichalcum", 4000, 15900, 250000)
 frag = Armor("Fragment of Infinity", 9999, 99999, 600000)
 aisha.shop_inventory_armor(mail)
